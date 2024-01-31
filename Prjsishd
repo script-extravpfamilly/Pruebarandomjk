@@ -204,13 +204,12 @@ local function SetTheme()
 end
 
 local function PackColor(Color)
-    return {R = 128, G = 0, B = 0}  -- Rojo oscuro
+	return {R = Color.R * 255, G = Color.G * 255, B = Color.B * 255}
 end    
 
 local function UnpackColor(Color)
-    return Color3.fromRGB(128, 0, 0)
+	return Color3.fromRGB(Color.R, Color.G, Color.B)
 end
-
 
 local function LoadCfg(Config)
 	local Data = HttpService:JSONDecode(Config)
@@ -426,7 +425,7 @@ function OrionLib:MakeNotification(NotificationConfig)
 				Font = Enum.Font.GothamSemibold,
 				Name = "Content",
 				AutomaticSize = Enum.AutomaticSize.Y,
-				TextColor3 = Color3.fromRGB(128, 0, 0),
+				TextColor3 = Color3.fromRGB(139, 0, 0),
 				TextWrapped = true
 			})
 		})
@@ -447,21 +446,6 @@ function OrionLib:MakeNotification(NotificationConfig)
 		NotificationFrame:Destroy()
 	end)
 end    
-
-function OrionLib:Init()
-	if OrionLib.SaveCfg then	
-		pcall(function()
-			if isfile(OrionLib.Folder .. "/" .. game.GameId .. ".txt") then
-				LoadCfg(readfile(OrionLib.Folder .. "/" .. game.GameId .. ".txt"))
-				OrionLib:MakeNotification({
-					Name = "Configuration",
-					Content = "Auto-loaded configuration for the game " .. game.GameId .. ".",
-					Time = 5
-				})
-			end
-		end)		
-	end	
-end	
 
 function OrionLib:MakeWindow(WindowConfig)
 	local FirstTab = true
