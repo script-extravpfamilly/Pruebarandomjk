@@ -14,10 +14,10 @@ local OrionLib = {
 		Default = {
 			Main = Color3.fromRGB(25, 25, 25),
 			Second = Color3.fromRGB(32, 32, 32),
-			Stroke = Color3.fromRGB(60, 60, 60),
+			Stroke = Color3.fromRGB(0, 100, 0),
 			Divider = Color3.fromRGB(60, 60, 60),
 			Text = Color3.fromRGB(240, 240, 240),
-			TextDark = Color3.fromRGB(150, 150, 150)
+			TextDark = Color3.fromRGB(0, 0, 0)
 		}
 	},
 	SelectedTheme = "Default",
@@ -447,6 +447,20 @@ function OrionLib:MakeNotification(NotificationConfig)
 	end)
 end    
 
+function OrionLib:Init()
+	if OrionLib.SaveCfg then	
+		pcall(function()
+			if isfile(OrionLib.Folder .. "/" .. game.GameId .. ".txt") then
+				LoadCfg(readfile(OrionLib.Folder .. "/" .. game.GameId .. ".txt"))
+				OrionLib:MakeNotification({
+					Name = "Configuration",
+					Content = "Auto-loaded configuration for the game " .. game.GameId .. ".",
+					Time = 5
+				})
+			end
+		end)		
+	end	
+end	
 
 function OrionLib:MakeWindow(WindowConfig)
 	local FirstTab = true
